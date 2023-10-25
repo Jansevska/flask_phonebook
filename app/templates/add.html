@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Contacts{% endblock %}
+
+{% block header %}
+    <h1>Start adding your contacts here</h1>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <div class="card mt-3">
+        <div class="card-body bg-secondary">
+            <form action="" method="post">
+                {{ add.csrf_token }}
+                {{ add.first_name.label }}
+                {{ add.first_name(class='form-control', placeholder='Enter First Name') }}
+        
+                {{ add.last_name.label }}
+                {{ add.last_name(class='form-control', placeholder='Enter Last Name') }}
+
+                {{ add.phone_number.label }}
+                {{ add.phone_number(class='form-control', placeholder=' Enter Phone Number') }}
+
+                {{ add.address.label }}
+                {{ add.address(class='form-control', placeholder='Enter Address') }}
+
+                {{ add.submit(class='btn btn-outline-secondary w-100 mt-3') }}
+
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
