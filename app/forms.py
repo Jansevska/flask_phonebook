@@ -6,5 +6,5 @@ class AddContact(FlaskForm):
     first_name = StringField('First Name', validators=[InputRequired()])
     last_name = StringField('Last Name', validators=[InputRequired()])
     phone_number = StringField('Phone Number', validators=[InputRequired()])
-    address = StringField('Address', validators=[InputRequired()])
+    address = StringField('Address')
     submit = SubmitField('Add Contact')

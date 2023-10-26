@@ -8,23 +8,23 @@
 
 {% block content %}
 <div class="col">
-    <div class="card mt-3">
+    <div class="card mt-5">
         <div class="card-body bg-secondary-subtle">
             <form action="" method="post">
-                {{ add.csrf_token }}
-                {{ add.first_name.label }}
-                {{ add.first_name(class='form-control', placeholder='Enter First Name') }}
+                {{ form.csrf_token }}
+                {{ form.first_name.label }}
+                {{ form.first_name(class='form-control', placeholder='Enter First Name') }}
         
-                {{ add.last_name.label }}
-                {{ add.last_name(class='form-control', placeholder='Enter Last Name') }}
+                {{ form.last_name.label }}
+                {{ form.last_name(class='form-control', placeholder='Enter Last Name') }}
 
-                {{ add.phone_number.label }}
-                {{ add.phone_number(class='form-control', placeholder=' Enter Phone Number') }}
+                {{ form.phone_number.label }}
+                {{ form.phone_number(class='form-control', placeholder=' Enter Phone Number') }}
 
-                {{ add.address.label }}
-                {{ add.address(class='form-control', placeholder='Enter Address') }}
+                {{ form.address.label }}
+                {{ form.address(class='form-control', placeholder='Enter Address') }}
 
-                {{ add.submit(class='btn btn-outline-secondary w-100 mt-3') }}
+                {{ form.submit(class='btn btn-outline-dark w-100 mt-3') }}
 
             </form>
         </div>
