@@ -103,16 +103,16 @@ def add_contact():
 #         return redirect(url_for('index'))
 #     return render_template('add.html', contact=contact)
 
-@app.route('/contacts/<contact_id>/edit', methods=["GET", "POST"])
+@app.route('/contacts/<contact_id>/edit_contact', methods=["GET", "POST"])
 @login_required
-def edit_contacts(contact_id):
+def edit_contact(contact_id):
     contact = db.session.get(Contact, contact_id)
     if not contact:
         flash('That contact does not exist')
         return redirect(url_for('index'))
-    # if current_user != contact.author:
-    #     flash('Please login to view and edit contacts')
-    #     return redirect(url_for('login', contact_id=contact_id))
+    if current_user != contact.author:
+        flash('Please login to view and edit contacts')
+        return redirect(url_for('login', contact_id=contact_id))
     
     form = AddContact()
     if form.validate_on_submit():
