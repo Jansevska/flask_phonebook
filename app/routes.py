@@ -6,7 +6,8 @@ from app.models import Contact
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    contacts = db.session.execute(db.select(Contact)).scalars().all()
+    return render_template('index.html', contacts=contacts)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_contact():
@@ -26,7 +27,8 @@ def add_contact():
         new_contact = Contact(first_name=first_name, last_name=last_name, phone_number=phone_number, address=address)
         db.session.add(new_contact)
         db.session.commit()
-        
+        flash(f"{new_contact} has been added to phonebook")
         
         return redirect(url_for('index'))
     return render_template('add.html', form=form)
+

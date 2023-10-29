@@ -10,4 +10,15 @@ class Contact(db.Model): #Contact
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     
     def __repr__(self):
-        return f"<Contact {self.id}|{self.first_name}|{self.last_name}>"
+        return f"<Contact {self.id}|{self.first_name} {self.last_name}>"
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'phone_number': self.phone_number,
+            'address': self.address,
+            'date_created': self.date_created
+        }
+        
