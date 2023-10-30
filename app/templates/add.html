@@ -3,7 +3,7 @@
 {% block title %}Add Contacts{% endblock %}
 
 {% block header %}
-    <h1>Start adding your contacts here</h1>
+    <h1>Add Contacts</h1>
 {% endblock %}
 
 {% block content %}
@@ -12,6 +12,7 @@
         <div class="card-body bg-secondary-subtle">
             <form action="" method="post">
                 {{ form.csrf_token }}
+                
                 {{ form.first_name.label }}
                 {{ form.first_name(class='form-control', placeholder='Enter First Name') }}
         

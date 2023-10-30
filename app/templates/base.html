@@ -10,6 +10,12 @@
 <body>
     {% include 'nav.html' %}
 
+    <div class="row">
+        <div class="col">
+            {% include 'alerts.html' %}
+        </div>
+    </div>
+
     <div class="row py-5 bg-danger-subtle">
         <div class="col text-center">
             {% block header %}
@@ -17,7 +23,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             {% block content %}
             {% endblock %}

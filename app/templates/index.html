@@ -8,11 +8,12 @@
 
 {% block content %}
     <div class="col-12 text-center mt-5 mb-5">
-        <h5>To add contacts click on the button bellow</h5>
-        <a class="btn btn-outline-dark w-100 mt-5" href="{{ url_for('add_contact') }}"style="margin-top: 10px;">Add Contacts</a>
+        <h3>Please Login or Sign Up to Start</h3>
+        <a class="btn btn-outline-dark w-100 mt-5" href="{{ url_for('login') }}"style="margin-top: 10px;">Log In</a>
+        <a class="btn btn-outline-dark w-100 mt-5" href="{{ url_for('signup') }}"style="margin-top: 10px;">Sign Up</a>
     </div>
 
-    <div class="col-12 text-center mt-5 mb-5">
+    <!-- <div class="col-12 text-center mt-5 mb-5">
         <h1 style="letter-spacing: 0.1em;">CONTACTS</h1>
     </div>
     {% for c in contacts %}
@@ -25,5 +26,5 @@
             <a href="#" class="btn btn-dark">Delete</a>
         </div>
     </div>
-    {% endfor %}
+    {% endfor %} -->
 {% endblock %}

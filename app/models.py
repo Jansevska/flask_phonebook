@@ -14,10 +14,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String, nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     contacts = db.relationship('Contact', backref='author')
-    token = db.Column(db.String, index=True, unique=True)
+    token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
-    
-        # contacts = db.relationship('Contact', backref='author')
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -38,11 +36,22 @@ class User(db.Model, UserMixin):
         db.session.commit()
         return self.token
     
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'email': self.email,
+            'username': self.username,
+            'password': self.password,
+            'date_created': self.date_created
+        }
+    
 @login.user_loader
 def get_user(user_id):
     return db.session.get(User, user_id)
 
-class Contact(db.Model):
+class Contact(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)

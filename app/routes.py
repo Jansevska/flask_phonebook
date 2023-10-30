@@ -9,8 +9,8 @@ from app.models import Contact, User
 def index():
     # Not sure about this.... needs to be logged in to view and edit/delete contacts
     # @login_required
-    contacts = db.session.execute(db.select(Contact)).scalars().all()
-    return render_template('index.html', contacts=contacts)
+    # contacts = db.session.execute(db.select(Contact)).scalars().all()
+    return render_template('index.html')
 
 @app.route('/signup', methods=['GET','POST'])
 def signup():
@@ -39,11 +39,11 @@ def signup():
         # log the newly created user in
         login_user(new_user)
         
-        flash(f"{new_user.username} has been created")
+        flash(f"{new_user.username} has been created and is logged in!")
         
         # Redirect back to the home page
-        return redirect(url_for('index'))
-    return render_template('sign_up.html', form=form)
+        return redirect(url_for('phonebook'))
+    return render_template('signup.html', form=form)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
@@ -57,7 +57,7 @@ def login():
             login_user(user, remember=remember_me)
             # log user in via Flask-Login
             flash(f'{user.username} has successfully logged in.')
-            return redirect(url_for('index'))
+            return redirect(url_for('phonebook'))
         else:
             flash('Incorrect username and/or password')
             return redirect(url_for('login'))
@@ -69,6 +69,12 @@ def logout():
     flash('You have successfully logged out')
     return redirect(url_for('index'))
 
+@app.route('/phonebook')
+@login_required
+def phonebook():
+    contacts = db.session.execute(db.select(Contact)).scalars().all()
+    return render_template('phonebook.html', contacts=contacts)
+
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_contact():
@@ -78,7 +84,6 @@ def add_contact():
         last_name = form.last_name.data
         phone_number = form.phone_number.data
         address = form.address.data
-        print(first_name, last_name, phone_number, address)
         
         check_contact = db.session.execute(db.select(Contact).where( (Contact.phone_number==phone_number))).scalars().all()
         if check_contact:
@@ -90,18 +95,18 @@ def add_contact():
         db.session.commit()
         flash(f"{new_contact} has been added to your contacts")
         
-        return redirect(url_for('index'))
+        return redirect(url_for('phonebook'))
     return render_template('add.html', form=form)
 
-# Not sure about this.... needs to be logged in to view and edit/delete contacts
-# @app.route('/contacts/<contact_id>')
+
+# @app.route('/contacts/<contact_id>/contacts_view')
 # @login_required
 # def contacts_view(contact_id):
-#     contact = db.session.get(Contact, contact_id)
-#     if not contact:
-#         flash('That contact does not exist')
-#         return redirect(url_for('index'))
-#     return render_template('add.html', contact=contact)
+    # contact = db.session.get(Contact, contact_id)
+    # if not contact:
+    #     flash('That contact does not exist')
+    #     return redirect(url_for('contacts_view'))
+    # return render_template('add.html', contact=contact)
 
 @app.route('/contacts/<contact_id>/edit_contact', methods=["GET", "POST"])
 @login_required
@@ -109,7 +114,7 @@ def edit_contact(contact_id):
     contact = db.session.get(Contact, contact_id)
     if not contact:
         flash('That contact does not exist')
-        return redirect(url_for('index'))
+        return redirect(url_for('phonebook'))
     if current_user != contact.author:
         flash('Please login to view and edit contacts')
         return redirect(url_for('login', contact_id=contact_id))
@@ -123,7 +128,7 @@ def edit_contact(contact_id):
         
         db.session.commit()
         flash(f'{contact.first_name} {contact.last_name} has been edited.', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('phonebook'))
     
     form.first_name.data = contact.first_name
     form.last_name.data = contact.last_name
@@ -133,17 +138,14 @@ def edit_contact(contact_id):
     
 @app.route('/contacts/<contact_id>/delete', methods=["GET"])
 @login_required
-def delete_post(contact_id):
+def delete_contact(contact_id):
     contact = db.session.get(Contact, contact_id)
     if not contact:
         flash('That contact does not exist')
-        return redirect(url_for('index'))
-    if current_user != contact.author:
-        flash('You have to be logged in to view and/or delete contacts!')
-        return redirect(url_for('index', contact_id=contact_id)) # url_for('contact_view',)
+        return redirect(url_for('phonebook'))
 
     db.session.delete(contact)
     db.session.commit()
 
     flash(f"{contact.first_name} {contact.last_name} has been deleted")
-    return redirect(url_for('index'))
+    return redirect(url_for('phonebook'))

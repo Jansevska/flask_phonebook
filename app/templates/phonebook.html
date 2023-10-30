@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Phonebook{% endblock %}
+
+{% block header %}
+    <h1>{{ current_user.first_name }}'s Phonebook</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="col-12 text-center mt-5 mb-5">
+        <h5>To add contacts click on the button bellow</h5>
+        <a class="btn btn-outline-dark w-100 mt-5" href="{{ url_for('add_contact') }}"style="margin-top: 10px;">Add Contact</a>
+    </div>
+
+    <div class="col-12 text-center mt-5 mb-5">
+        <h1 style="letter-spacing: 0.1em;">CONTACTS</h1>
+    </div>
+    {% for c in contacts %}
+    <div class="card mb-3 bg-light">
+        <div class="card-body">
+            <h5 class="card-title">{{ c.first_name }} {{ c.last_name }}</h5>
+            <p class="card-text">{{ c.phone_number }}</p>
+            <p class="card-text">{{ c.address }}</p>
+            <a href="{{ url_for('edit_contact', contact_id=c.id)}}" class="btn btn-primary">Edit</a>
+            <a href="#" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
