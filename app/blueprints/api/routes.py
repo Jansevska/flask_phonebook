@@ -119,7 +119,7 @@ def delete_contact(contact_id):
     # Get the contact from db
     contact = db.session.get(Contact, contact_id)
     if contact is None:
-        return {'error': f'Post with an ID of {contact_id} does not exist'}, 404
+        return {'error': f'Contact with an ID of {contact_id} does not exist'}, 404
     # Make sure authenticated user is the contact author
     current_user = token_auth.current_user()
     if contact.author != current_user:
@@ -127,4 +127,4 @@ def delete_contact(contact_id):
     # Delete the contact
     db.session.delete(contact)
     db.session.commit()
-    return {'success': f"{contact.first_name} {contact.last_name} has been deleted"}
+    return {'success': f"{contact.first_name} {contact.last_name} has been deleted"}, 204
