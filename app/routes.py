@@ -136,7 +136,7 @@ def edit_contact(contact_id):
     form.address.data = contact.address
     return render_template('edit_contact.html', contact=contact, form=form)
     
-@app.route('/contacts/<contact_id>/delete', methods=["DELETE"])
+@app.route('/contacts/<contact_id>/delete', methods=["GET"])
 @login_required
 def delete_contact(contact_id):
     contact = db.session.get(Contact, contact_id)
